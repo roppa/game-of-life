@@ -38,26 +38,12 @@ cells[423] = true;
 // Any live cell with more than three live neighbours dies, as if by overpopulation
 // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction
 function getCell(cell, neighbours) {
-  if (cell) {
-    if (neighbours === 2 || neighbours === 3) {
-      return true;
-    }
-    return false;
-  } else {
-    if (neighbours === 3) {
-      return true;
-    }
-    return false;
-  }
+  return cell && neighbours === 2 || neighbours === 3
 }
 
 function regenerate() {
   let newCells = [];
-  for (let i = 0, w = 0; i < width * width; i++, w++) {
-    if (!(i % width)) {
-      w = 0;
-    }
-
+  for (let i = 0, w = 0; i < width * width; i++) {
     let neighbours = [
       cells[i - (width - 1)],
       cells[i - width],
@@ -70,7 +56,6 @@ function regenerate() {
     ].reduce((curr, next) => (next ? curr + 1 : curr), 0);
 
     newCells.push(getCell(cells[i], neighbours));
-    w++;
   }
   cells = newCells;
 }
